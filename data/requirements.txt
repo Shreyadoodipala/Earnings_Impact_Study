@@ -1,0 +1,4 @@
+yfinance
+lxml
+pandas
+numpy
