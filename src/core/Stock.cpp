@@ -54,5 +54,5 @@ void Stock::display() const {
     std::cout << "Estimated EPS: " << estimatedEPS << std::endl;
     std::cout << "Actual EPS: " << actualEPS << std::endl;
     std::cout << "Surprise %: " << surprisePct << std::endl;
-    std::cout << "Group: " << static_cast<int>(group) << std::endl;
+    std::cout << "Group: " << groupToString(group) << std::endl;
 }
