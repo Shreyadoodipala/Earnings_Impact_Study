@@ -8,6 +8,5 @@ api_key.txt
 # Ignore compiling files (temporary)
 build.bat
 Makefile
-test.cpp
 
 test.cpp
