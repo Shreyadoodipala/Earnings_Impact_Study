@@ -67,3 +67,14 @@ void addWarning(std::vector<std::string>& warnings, const std::string& ticker, c
 std::string joinDateMessage(const std::string& originalDate, const std::string& replacementDate) {
     return "announcement date " + originalDate + " is not a trading day; using next available trading day " + replacementDate;
 }
+
+// Progress bar for console output
+void ProgressBar::show(int current) {
+    int pct = (total > 0) ? (int)((float)current / total * 100) : 100;
+    int pos = width * pct / 100;
+    std::cout << "\r[";
+    for (int i = 0; i < width; ++i)
+        std::cout << (i < pos ? '#' : '-');
+    std::cout << "] " << std::setw(3) << pct << "% (" << current << "/" << total << ")   ";
+    std::cout.flush();
+}

@@ -2,6 +2,8 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <ctime>
 #include <chrono>
@@ -21,3 +23,12 @@ bool shiftIsoDate(const std::string& date, int days, std::string& shiftedDate);
 // Warning helpers
 void addWarning(std::vector<std::string>& warnings, const std::string& ticker, const std::string& message);
 std::string joinDateMessage(const std::string& originalDate, const std::string& replacementDate);
+
+// Progress bar for console output
+struct ProgressBar {
+    int total;
+    int width;
+
+    ProgressBar(int total, int width = 50) : total(total), width(width) {}
+    void show(int progress);
+};
