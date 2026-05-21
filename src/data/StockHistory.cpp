@@ -401,7 +401,6 @@ std::vector<std::string> populatePriceHistoryFromEODHD(std::map<std::string, Sto
                 
                 for (const auto& [date, price] : stockPrices)
                     stockPtr->addPrice(date, price);
-                stockPtr->constructPriceVector();
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
             int done = ++counter;
