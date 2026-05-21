@@ -36,12 +36,7 @@ const Vector& Stock::getBenchmarkReturns() const { return benchmarkReturns; }
 void Stock::addPrice(const std::string& date, double price) { priceHistory[date] = price; }
 void Stock::setGroup(Group g) { group = g; }
 
-void Stock::constructPriceVector() {
-    priceVector.clear();
-    for (const auto& pair : priceHistory) {
-        priceVector.push_back(pair.second);
-    }
-}
+void Stock::setPriceVector(const Vector& prices) { priceVector = prices; }
 void Stock::setBenchmarkVector(const Vector& benchmark) { benchmarkVector = benchmark; }
 
 void Stock::setReturns() { 

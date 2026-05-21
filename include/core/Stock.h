@@ -43,7 +43,7 @@ class Stock {
         // setters
         void addPrice(const std::string& date, double price);
         void setGroup(Group g);
-        void constructPriceVector(); // call after all price data is added
+        void setPriceVector(const Vector& prices);
         void setBenchmarkVector(const Vector& benchmark);
         void setReturns();
 
