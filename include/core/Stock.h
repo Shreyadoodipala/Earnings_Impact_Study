@@ -36,6 +36,7 @@ class Stock {
         Vector getPrices() const;
         Vector getBenchmarkPrices() const;
         const std::map<std::string, double>& getPriceHistory() const;
+        std::vector<std::string> getPriceDates() const;
         const Vector& getReturns() const;
         const Vector& getBenchmarkReturns() const;
 

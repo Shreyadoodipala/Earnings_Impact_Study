@@ -18,6 +18,14 @@ double Stock::getPrice(const std::string& date) const {
         throw std::runtime_error("Price for date " + date + " not found.");
     }
 }
+std::vector<std::string> Stock::getPriceDates() const {
+    std::vector<std::string> dates;
+    dates.reserve(priceHistory.size());
+    for (const auto& [date, price] : priceHistory)
+        dates.push_back(date);
+    return dates;
+}
+
 Vector Stock::getPrices() const { return priceVector; }
 Vector Stock::getBenchmarkPrices() const { return benchmarkVector; }
 const std::map<std::string, double>& Stock::getPriceHistory() const { return priceHistory; }
