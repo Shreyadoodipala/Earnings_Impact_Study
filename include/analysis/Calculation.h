@@ -24,7 +24,7 @@ struct GroupResult
 };
 
 // get maps which contain stocks in beat/meet/miss group and their corresponding prices 
-GroupResult grouping(std::map<std::string, Sector> allStocks);
+GroupResult grouping(std::map<std::string, Sector>& allStocks);
 
 std::vector<const Stock*> random30Stocks(const std::map<std::string, Stock>& stockList);
 
