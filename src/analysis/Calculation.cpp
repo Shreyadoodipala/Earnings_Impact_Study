@@ -134,3 +134,42 @@ void display(int N, BootstrappingResult bResult, std::string option)
         }
     }
 }
+
+void display(int N, BootstrappingResult bResult, std::string option, std::ofstream& outFile)
+{
+    if (option != "AAR" && option != "CAAR")
+    {
+        outFile << "Invalid option. Option can only be AAR or CAAR." << std::endl;
+        return; 
+    }
+
+    Vector tResult;
+    CIResult cResult;
+    if (option == "AAR") 
+    {
+        tResult = tStat(bResult.eAAR, bResult.stdAAR);
+        cResult = CI(bResult.eAAR, bResult.stdAAR);
+        
+        outFile << std::fixed << std::setprecision(4); 
+        outFile << std::setw(6) << "Day" << std::setw(12) << "E[AAR(t)]" << std::setw(12) << "AAR-STD(t)"
+            << std::setw(12) << "t-stat" << std::setw(12) << "95% CI Lower" << std::setw(12) << "95% CI Upper" << std::endl;
+        for (int i = 0; i < 2 * N; i++)
+        {
+            outFile << std::setw(6) << i - N + 1 << std::setw(12) << bResult.eAAR[i] << std::setw(12) << bResult.stdAAR[i] 
+                    << std::setw(12) << tResult[i] << std::setw(12) << cResult.lower[i] << std::setw(12) << cResult.upper[i] << std::endl;
+        }
+    }
+    else 
+    {
+        tResult = tStat(bResult.eCAAR, bResult.stdCAAR);
+        cResult = CI(bResult.eCAAR, bResult.stdCAAR); 
+
+        outFile << std::fixed << std::setprecision(4); 
+        outFile << std::setw(6) << "Day" << std::setw(12) << "E[CAAR(t)]" << std::setw(12) << "CAAR-STD(t)"
+                << std::setw(12) << "t-stat" << std::setw(12) << "95% CI Lower" << std::setw(12) << "95% CI Upper" << std::endl;
+        for (int i = 0; i < 2 * N; i++)        {
+            outFile << std::setw(6) << i - N + 1 << std::setw(12) << bResult.eCAAR[i] << std::setw(12) << bResult.stdCAAR[i] 
+                    << std::setw(12) << tResult[i] << std::setw(12) << cResult.lower[i] << std::setw(12) << cResult.upper[i] << std::endl;
+        }
+    }
+}

@@ -5,6 +5,7 @@
 #include "../common/utils.h"
 #include "../common/Matrix.h"
 #include <cmath>
+#include <fstream>
 
 class Stock {
     private:
@@ -50,4 +51,5 @@ class Stock {
         // Other
         bool hasPrice(const std::string& date) const;
         void display() const;
+        void display(std::ofstream& outFile) const;
 };

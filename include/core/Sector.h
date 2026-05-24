@@ -19,6 +19,7 @@ class Sector {
         std::string getSector() const;
         void setGroup();
         void sector_summary() const;
+        void sector_summary(std::ofstream& outFile) const;
 
         int getTotal() const;
         int getExclude() const;
@@ -27,6 +28,7 @@ class Sector {
         int getMissCount() const;
 };
 void all_sectors_summary(std::map<std::string, Sector> s);
+void all_sectors_summary(std::map<std::string, Sector> s, std::ofstream& outFile);
 
 // Group stocks by sector, remove outliers and assign each stock to Beat/Meet/Miss group within its sector
 std::map<std::string, Sector> groupStocks(std::map<std::string, Stock>& stocks);

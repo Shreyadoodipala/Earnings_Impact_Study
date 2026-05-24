@@ -70,6 +70,17 @@ void Sector::sector_summary() const {
               << std::endl;
 }
 
+void Sector::sector_summary(std::ofstream& outFile) const {
+    outFile << std::left << std::setw(35) << sector 
+            << std::right << std::setw(10) << total 
+            << std::right << std::setw(10) << exclude 
+            << std::right << std::setw(10) << (total - exclude) 
+            << std::right << std::setw(10) << beatCount 
+            << std::right << std::setw(10) << meetCount 
+            << std::right << std::setw(10) << missCount 
+            << std::endl;
+}
+
 void all_sectors_summary(std::map<std::string, Sector> s) {
     std::vector<Sector> sectors;
     for (const auto& [name, sector] : s) {
@@ -107,6 +118,44 @@ void all_sectors_summary(std::map<std::string, Sector> s) {
               << std::endl;
     std::cout << std::string(105, '-') << std::endl;
 
+}
+
+void all_sectors_summary(std::map<std::string, Sector> s, std::ofstream& outFile) {
+    std::vector<Sector> sectors;
+    for (const auto& [name, sector] : s) {
+        sectors.push_back(sector);
+    }
+
+    outFile << std::string(105, '-') << std::endl;
+    outFile << std::left << std::setw(35) << "Sector" 
+            << std::right << std::setw(10) << "Total" 
+            << std::right << std::setw(10) << "Excluded" 
+            << std::right << std::setw(10) << "Included" 
+            << std::right << std::setw(10) << "Beat" 
+            << std::right << std::setw(10) << "Meet" 
+            << std::right << std::setw(10) << "Miss" 
+            << std::endl;
+    int totalAll = 0, excludeAll = 0, beatAll = 0, meetAll = 0, missAll = 0;
+    outFile << std::string(105, '-') << std::endl;
+    for (const auto& sector : sectors) {
+        sector.sector_summary(outFile);
+        totalAll += sector.getTotal();
+        excludeAll += sector.getExclude();
+        beatAll += sector.getBeatCount();
+        meetAll += sector.getMeetCount();
+        missAll += sector.getMissCount();
+    }
+    int includedAll = totalAll - excludeAll;
+    outFile << std::string(105, '-') << std::endl;
+    outFile << std::left << std::setw(35) << "All Sectors" 
+            << std::right << std::setw(10) << totalAll 
+            << std::right << std::setw(10) << excludeAll 
+            << std::right << std::setw(10) << includedAll 
+            << std::right << std::setw(10) << beatAll 
+            << std::right << std::setw(10) << meetAll 
+            << std::right << std::setw(10) << missAll 
+            << std::endl;
+    outFile << std::string(105, '-') << std::endl;
 }
 
 std::map<std::string, Sector> groupStocks(std::map<std::string, Stock>& stocks) {

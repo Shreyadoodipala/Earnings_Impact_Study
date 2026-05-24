@@ -59,3 +59,14 @@ void Stock::display() const {
     std::cout << "Surprise %: " << surprisePct << std::endl;
     std::cout << "Group: " << groupToString(group) << std::endl;
 }
+
+void Stock::display(std::ofstream& outFile) const {
+    outFile << "Ticker: " << ticker << std::endl;
+    outFile << "Name: " << name << std::endl;
+    outFile << "Sector: " << sector << std::endl;
+    outFile << "Announcement Date: " << day0 << std::endl;
+    outFile << "Estimated EPS: " << estimatedEPS << std::endl;
+    outFile << "Actual EPS: " << actualEPS << std::endl;
+    outFile << "Surprise %: " << surprisePct << std::endl;
+    outFile << "Group: " << groupToString(group) << std::endl;
+}

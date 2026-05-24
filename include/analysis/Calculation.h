@@ -42,3 +42,4 @@ CIResult CI(Vector e, Vector std);
 
 // show the statistical significance table 
 void display(int N, BootstrappingResult bResult, std::string option);
+void display(int N, BootstrappingResult bResult, std::string option, std::ofstream& outFile);
