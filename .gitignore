@@ -5,8 +5,7 @@ build/
 # Ignore API keys
 api_key.txt
 
-# Ignore compiling files (temporary)
-build.bat
-Makefile
+# Ignore logs
+results/logs.txt
 
 test.cpp
