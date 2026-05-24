@@ -15,6 +15,25 @@ Menu::Menu() : N(0), isDataProcessed(false) {}
 
 void Menu::run() {
     int choice = 0;
+    std::cout << "\n==================================================" << std::endl;
+    std::cout << "   Main Menu - Earnings Impact Study" << std::endl;
+    std::cout << "==================================================" << std::endl;
+
+    std::cout << "Do you want to save the results to a file? (y/n): ";
+    char saveChoice;
+    std::cin >> saveChoice;
+    if (saveChoice == 'n' || saveChoice == 'N') {
+        save = false;
+        std::cout << "Results will not be saved to a file." << std::endl;
+
+    } else if (saveChoice == 'y' || saveChoice == 'Y') {
+        save = true;
+        std::cout << "Results will be saved to a file." << std::endl;
+    } else {
+        std::cout << "Invalid choice. Defaulting to not saving results." << std::endl;
+        save = false;
+    }
+
     while (true) {
         std::cout << "\n==================================================" << std::endl;
         std::cout << "   Main Menu - Earnings Impact Study" << std::endl;
@@ -84,7 +103,6 @@ void Menu::handleOption1() {
     for (auto& [ticker, window] : summary.validWindows) {
     auto it = allStocks.find(ticker);
     if (it != allStocks.end()) {
-        // it->second.setWindowDates(window.dates);
         it->second.setPriceVector(window.stockPrices);
         it->second.setBenchmarkVector(window.benchmarkPrices);
         it->second.setReturns();
@@ -93,6 +111,38 @@ void Menu::handleOption1() {
 
     std::cout << "Valid stocks: " << summary.validWindows.size() << std::endl;
     std::cout << "Skipped stocks: " << summary.skippedStocks.size() << std::endl;
+
+    if (save == true) {
+        std::ofstream outFile("results/Results_Summary.txt");
+        if (!outFile) {
+            std::cout << "Error: Cannot create results/Results_Summary.txt" << std::endl;
+            return;
+        }
+        outFile << "Window size (N): " << N << std::endl << std::endl;
+        outFile << "Stock Preparation Summary" << std::endl;
+        outFile << "=========================" << std::endl;
+        outFile << "Valid Stocks: " << summary.validWindows.size() << std::endl;
+        outFile << "Skipped Stocks: " << summary.skippedStocks.size() << std::endl << std::endl;
+        outFile << "Details of Skipped Stocks can be found in logs.txt" << std::endl;
+
+        std::ofstream logFile("results/logs.txt", std::ios::app);
+        if (!logFile) {
+            std::cout << "Error: Cannot create results/logs.txt" << std::endl;
+            return;
+        }
+        auto now = std::chrono::system_clock::now();
+        auto in_time_t = std::chrono::system_clock::to_time_t(now);
+        logFile << "Log Timestamp: " << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %H:%M:%S") << std::endl;
+        for (const auto& [ticker, reasons] : summary.skippedStocks) {
+            logFile << "Ticker: " << ticker << std::endl;
+            for (const auto& reason : reasons) {
+                logFile << "  - " << reason << std::endl;
+            }
+            logFile << std::endl;
+        }
+        outFile.close();
+        logFile.close();
+    }
 
     validStocks = stocksForValidWindows(allStocks, summary);
 
@@ -115,6 +165,14 @@ void Menu::handleOption2() {
     auto it = validStocks.find(ticker);
     if (it != validStocks.end()) {
         it->second.display(); 
+        if (save == true) {
+            std::ofstream outFile("results/Results_Summary.txt", std::ios::app);
+            if (outFile) {
+                outFile << "\n--- Details for Stock: " << ticker << " ---\n";
+                it->second.display(outFile);
+                outFile.close();
+            }
+        }
     } else {
         std::cout << "Ticker [" << ticker << "] not found or was excluded as an outlier." << std::endl;
     }
@@ -140,6 +198,18 @@ void Menu::handleOption3() {
     if (bootResults.find(groupName) != bootResults.end()) {
         display(N, bootResults[groupName], "AAR");
         display(N, bootResults[groupName], "CAAR");
+
+        if (save == true) {
+            std::ofstream outFile("results/Results_Summary.txt", std::ios::app);
+            if (outFile) {
+                outFile << "\n--- Statistics for Group: " << groupName << " ---\n";
+                outFile << "\nAAR Statistics:\n";
+                display(N, bootResults[groupName], "AAR", outFile);
+                outFile << "\nCAAR Statistics:\n";
+                display(N, bootResults[groupName], "CAAR", outFile);
+                outFile.close();
+            }
+        }
     }
     else {
         std::cout << "Invalid group name!" << std::endl;
@@ -166,22 +236,20 @@ void Menu::handleOption4() {
     }
 
     // x-axis: [-N, ..., 0, ..., +N]
-    vector<double> xData(size);
+    Vector xData(size);
     for (int i = 0; i < size; ++i) {
         xData[i] = i - (size / 2);
     }
 
-    vector<vector<double>> yData = {
+    Matrix yData = {
         bootResults["beat"].eCAAR,
         bootResults["meet"].eCAAR,
         bootResults["miss"].eCAAR
     };  
 
-    Gnuplot plot("Expected CAAR Comparison for Beat, Meet, and Miss",
-        "Event Time (days)", "CAAR",
-        xData, yData);
+    Gnuplot plot("Expected CAAR Comparison for Beat, Meet, and Miss", "Event Time (days)", "CAAR", xData, yData);
 
-    plot.plot();
+    plot.plot(save);
 }
 
 void Menu::handleOption5() {
@@ -190,6 +258,14 @@ void Menu::handleOption5() {
         return;
     }
     all_sectors_summary(sectorMap);   
+    if (save == true) {
+        std::ofstream outFile("results/Results_Summary.txt", std::ios::app);
+        if (outFile) {
+            outFile << "\n--- Sector Summary Report ---\n";
+            all_sectors_summary(sectorMap, outFile);
+            outFile.close();
+        }
+    }
 }
 
 void Menu::clearInputBuffer() {

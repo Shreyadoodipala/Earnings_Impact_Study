@@ -19,7 +19,7 @@ private:
     StockPrepSummary summary;       // Summary of valid and skipped stocks
     GroupResult groupedData;        // Store processed groups (Beat/Meet/Miss)
     std::map<std::string, BootstrappingResult> bootResults;   // Bootstrapping results for each group
-    // std::vector<std::vector<Vector>> resultMatrix; 
+    bool save;                 // User choice for saving results to a file
 
     // Private handler functions for each menu option
     void handleOption1();           // Retrieve data & Grouping

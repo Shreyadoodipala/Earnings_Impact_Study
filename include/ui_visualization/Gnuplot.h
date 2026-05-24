@@ -4,27 +4,25 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 class Gnuplot {
 private:
-    string title;
-    string xlabel;
-    string ylabel;
-    vector<double> xData;
-    vector<vector<double>> yData;
+    std::string title;
+    std::string xlabel;
+    std::string ylabel;
+    std::vector<double> xData;
+    std::vector<std::vector<double>> yData;
     FILE* gnuplotPipe;
 
 public:
-    Gnuplot(const string& title_,
-            const string& xlabel_,
-            const string& ylabel_,
-            const vector<double>& xData_,
-            const vector<vector<double>>& yData_);
+    Gnuplot(const std::string& title_,
+            const std::string& xlabel_,
+            const std::string& ylabel_,
+            const std::vector<double>& xData_,
+            const std::vector<std::vector<double>>& yData_);
 
     ~Gnuplot();
 
-    bool plot();
+    bool plot(bool saveToFile = false);
 };
 
 #endif
