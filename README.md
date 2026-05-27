@@ -140,7 +140,7 @@ For each stock:
 ### 5. Statistical Analysis
 - **AAR (Average Abnormal Return)**: Mean abnormal return across all stocks in a group for each day
 - **CAAR (Cumulative AAR)**: Cumulative sum of AAR over the event window
-- **Bootstrapping**: Resampling analysis to validate statistical significance
+- **Bootstrapping**: Resampling analysis to validate statistical significance (50 iterations, 30 stocks randomly sampled per group per iteration)
 
 ### 6. Results Generation
 Outputs summary statistics and visualizations showing:
@@ -154,7 +154,6 @@ Outputs summary statistics and visualizations showing:
 - **logs:** Processing errors and warnings
 
 ## Key Classes
-
 - **Stock**: Represents individual stock with price history and returns data
 - **Sector**: Groups stocks by industry classification
 - **StockHistory**: Manages historical price data and API integration
@@ -163,13 +162,11 @@ Outputs summary statistics and visualizations showing:
 - **Calculation**: Performs abnormal return and statistical calculations
 
 ## Dependencies
-
 - **libcurl**: HTTP library for EODHD API calls
 - **C++11 or later**: Standard library features
 - **Gnuplot**: Optional, for visualization (if integrated)
 
 ## Notes
-
 - Ensure sufficient API quota with EODHD before running large analyses
 - Results are appended to log files; clear them before fresh runs if needed
 - Stock data requires minimum historical coverage around announcement dates
