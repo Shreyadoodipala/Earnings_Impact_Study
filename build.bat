@@ -2,8 +2,8 @@
 setlocal enabledelayedexpansion
 
 set CXX=g++
-set CXXFLAGS=-I./include -g -Wall -mconsole
-set LDFLAGS=-LC:/msys64/mingw64/lib
+set CXXFLAGS=-I./include -g -Wall -mconsole -fopenmp
+set LDFLAGS=-LC:/msys64/mingw64/lib -fopenmp
 set LIBS=-lcurl
 set BUILD_DIR=build
 set TARGET=%BUILD_DIR%\earnings_impact_study.exe

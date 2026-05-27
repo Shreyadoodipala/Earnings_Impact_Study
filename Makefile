@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -I./include -g -Wall
-LDFLAGS = 
+CXXFLAGS = -I./include -g -Wall -fopenmp
+LDFLAGS = -fopenmp 
 LIBS = -lcurl
 BUILD_DIR = build
 TARGET = $(BUILD_DIR)/earnings_impact_study

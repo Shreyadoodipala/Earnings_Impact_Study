@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iomanip>
 #include <iostream>
+#include <omp.h>
 
 GroupResult grouping(std::map<std::string, Sector>& allStocks)
 {
@@ -51,7 +52,8 @@ BootstrappingResult bootstrapping(const std::map<std::string, Stock>& stockList)
     Matrix AAR; 
     Matrix CAAR; 
 
-    // repeat every step 50 times to create 50 samplings 
+    // repeat every step 50 times to create 50 samplings (parallelized across threads)
+    #pragma omp parallel for
     for (int i = 0; i < 50; i++)
     {
         // randomly select 30 stocks 
@@ -68,9 +70,14 @@ BootstrappingResult bootstrapping(const std::map<std::string, Stock>& stockList)
         }
 
         Vector AARt = colMean(ARit);
-        AAR.push_back(AARt);
         Vector CAARt = calcCAAR(AARt);
-        CAAR.push_back(CAARt);
+        
+        // Thread-safe aggregation of results
+        #pragma omp critical
+        {
+            AAR.push_back(AARt);
+            CAAR.push_back(CAARt);
+        }
     }
 
     // calculate average and std 
