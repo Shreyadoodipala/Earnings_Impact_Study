@@ -1,4 +1,4 @@
-# Earnings Impact Study
+# Impact of Quarterly Earnings Announcements on Stock Price Movement
 
 This project analyzes how stocks perform around earnings announcement dates, grouping them by whether they beat, meet, or miss earnings expectations.
 
@@ -41,10 +41,15 @@ Earnings_Impact_Study/
 ├── build/                        # Compiled outputs and results
 ├── results/                      # Analysis results
 │   ├── logs.txt                  # Execution logs
-│   └── Results_Summary.txt       # Event window analysis results
+│   ├── Results_Summary_30.txt    # Event window analysis results
+|   ├── Results_Summary_30.txt
+|   ├── CAAR_Plot_N30.png         # Expected CAAR plot for 3 groups
+|   ├── CAAR_Plot_N30.png
+|   └── RESULTS.md                # Results and Conclusion
 ├── build.bat                     # Windows build script
-├── Makefile                      # Alternative build configuration
-└── api_key.txt                   # EODHD API key
+├── Makefile                      # Cross platform configuration
+├── api_key.txt                   # EODHD API key
+└── README.md
 ```
 
 ## Installation & Setup
